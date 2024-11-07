@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary colors -->
+    <color name="primary">#3F51B5</color> <!-- Deep Indigo -->
+    <color name="primary_dark">#303F9F</color> <!-- Darker Indigo -->
+    <color name="accent">#FF4081</color> <!-- Pinkish accent for highlights -->
+
+    <!-- Background and Surface Colors -->
+    <color name="white">#FFFFFF</color> <!-- Pure White Background -->
+    <color name="gray">#757575</color> <!-- Light gray for secondary text -->
+    <color name="gray_dark">#424242</color> <!-- Darker gray for main text -->
+
+    <!-- Text Colors -->
+    <color name="black">#000000</color> <!-- For prominent headers -->
+    <color name="primary_text">#212121</color> <!-- Slightly off-black for readability -->
+    <color name="secondary_text">#757575</color> <!-- Light gray for secondary info -->
+
+    <!-- Shadows and Elevation -->
+    <color name="shadow">#1A000000</color> <!-- Transparent black for shadows -->
+</resources>
