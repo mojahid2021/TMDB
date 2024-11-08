@@ -1,5 +1,8 @@
 package com.horizonhunters.tmdb.search;
 
+import static com.horizonhunters.tmdb.Connstant.API_KEY;
+import static com.horizonhunters.tmdb.Connstant.BASE_URL;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
@@ -65,7 +68,7 @@ public class SearchActivity extends AppCompatActivity {
     private void fetchMovies() {
         // Show the progress bar while loading data
 
-        String URL = "https://api.themoviedb.org/3/search/movie?query=" + searchQuery + "&api_key=f3ec9ad1521b4eea8727f20fe9ef8ca4";
+        String URL = BASE_URL+"search/movie?query=" + searchQuery + "&api_key="+API_KEY;
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, response -> {

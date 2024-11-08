@@ -1,5 +1,8 @@
 package com.horizonhunters.tmdb.home;
 
+import static com.horizonhunters.tmdb.Connstant.API_KEY;
+import static com.horizonhunters.tmdb.Connstant.BASE_URL;
+
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +19,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.horizonhunters.tmdb.R;
+import com.horizonhunters.tmdb.home.Popular.Content2;
+import com.horizonhunters.tmdb.home.Popular.ContentAdapter2;
 import com.horizonhunters.tmdb.home.Trending.Today.Content;
 import com.horizonhunters.tmdb.home.Trending.Today.ContentAdapter;
 import org.json.JSONArray;
@@ -25,38 +30,97 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView, recyclerView2;
     private ContentAdapter contentAdapter;
+    private ContentAdapter2 contentAdapter2;
     private List<Content> contentList;
+    private List<Content2> contentList2;
     private Handler handler;
-    private LinearLayoutManager layoutManager;
+    private LinearLayoutManager layoutManager, layoutManager2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView2 = view.findViewById(R.id.recyclerView2);
+
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        layoutManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView2.setLayoutManager(layoutManager2);
         recyclerView.setLayoutManager(layoutManager);
 
         contentList = new ArrayList<>();  // Initialize contentList before passing it to adapter
         contentAdapter = new ContentAdapter(contentList, getActivity());
         recyclerView.setAdapter(contentAdapter);
+        contentList2 = new ArrayList<>();  // Initialize contentList before passing it to adapter
+        contentAdapter2 = new ContentAdapter2(contentList2, getActivity());
+        recyclerView2.setAdapter(contentAdapter2);
 
         fetchTrendingToday();
+        fetchPopular();
 
-        // Create a handler to trigger smooth scrolling every 2 seconds
+        // Create a handler to trigger smooth scrolling every 3 seconds
         handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 smoothScrollRecyclerView();
-                // Repeat the scrolling action every 2 seconds
-                handler.postDelayed(this, 3000); // 2000ms = 2 seconds
+                // Repeat the scrolling action every 3 seconds
+                handler.postDelayed(this, 3000); // 3000ms = 3 seconds
             }
         }, 3000); // Start after 2 seconds
 
         return view;
+    }
+
+    // Fetch popular content
+    private void fetchPopular() {
+        String URL = BASE_URL + "trending/all/week?language=en-US&api_key="+API_KEY;
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, response -> {
+            try {
+                contentList2.clear();  // Clear previous results
+                JSONArray results = response.getJSONArray("results");
+
+                if (results.length() == 0) {
+                    Toast.makeText(getActivity(), "No content found", Toast.LENGTH_SHORT).show();
+                }
+
+                for (int i = 0; i < results.length(); i++) {
+                    JSONObject contentObject = results.getJSONObject(i);
+
+                    Content2 content2 = new Content2(
+                            contentObject.optString("title", ""),
+                            contentObject.optString("overview", ""),
+                            contentObject.optString("poster_path", ""),
+                            contentObject.optString("release_date", ""),
+                            contentObject.optDouble("vote_average", 0.0),
+                            contentObject.optInt("id", 0),
+                            contentObject.optString("backdrop_path", ""),
+                            contentObject.optString("original_language", ""),
+                            contentObject.optString("original_title", ""),
+                            contentObject.optString("media_type", ""),
+                            contentObject.optBoolean("adult", false)  // Boolean value for adult
+                    );
+
+                    contentList2.add(content2);
+                }
+
+                // Update adapter after data is fetched
+                contentAdapter2.notifyDataSetChanged();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(getActivity(), "Error parsing content data", Toast.LENGTH_SHORT).show();
+            }
+        }, error -> {
+            Log.e("HomeFragment", "Error: " + error.getMessage());
+            Toast.makeText(getActivity(), "Error fetching data", Toast.LENGTH_SHORT).show();
+        });
+
+        requestQueue.add(jsonObjectRequest);
     }
 
     private void smoothScrollRecyclerView() {
@@ -69,7 +133,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchTrendingToday() {
-        String URL = "https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key=f3ec9ad1521b4eea8727f20fe9ef8ca4";
+        String URL = BASE_URL + "trending/all/day?language=en-US&api_key="+API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, response -> {
