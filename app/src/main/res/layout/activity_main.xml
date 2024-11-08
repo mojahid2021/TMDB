@@ -45,16 +45,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize"
-            android:layout_marginBottom="56dp" />
+            android:layout_marginBottom="56dp" /> <!-- Adjusted to clear BottomNavigationView height -->
 
         <!-- Bottom Navigation -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:labelVisibilityMode="selected"
             android:layout_gravity="bottom"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
             app:menu="@menu/bottom_nav_menu" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 
     <!-- Navigation Drawer (Side Menu) -->
     <com.google.android.material.navigation.NavigationView

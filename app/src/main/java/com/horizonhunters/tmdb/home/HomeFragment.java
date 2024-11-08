@@ -25,6 +25,9 @@ import com.horizonhunters.tmdb.home.Popular.Content2;
 import com.horizonhunters.tmdb.home.Popular.ContentAdapter2;
 import com.horizonhunters.tmdb.home.Trending.Today.Content;
 import com.horizonhunters.tmdb.home.Trending.Today.ContentAdapter;
+import com.horizonhunters.tmdb.home.TvSeries.Content4;
+import com.horizonhunters.tmdb.home.TvSeries.ContentAdapter4;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,15 +35,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private RecyclerView recyclerView, recyclerView2, recyclerView3;
+    private RecyclerView recyclerView, recyclerView2, recyclerView3, recyclerView4;
     private ContentAdapter contentAdapter;
     private ContentAdapter2 contentAdapter2;
     private ContentAdapter3 contentAdapter3;
+    private ContentAdapter4 contentAdapter4;
     private List<Content> contentList;
     private List<Content2> contentList2;
     private List<Content3> contentList3;
+    private List<Content4> contentList4;
     private Handler handler;
-    private LinearLayoutManager layoutManager, layoutManager2, layoutManager3;
+    private LinearLayoutManager layoutManager, layoutManager2, layoutManager3, layoutManager4;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,10 +54,13 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView2 = view.findViewById(R.id.recyclerView2);
         recyclerView3 = view.findViewById(R.id.recyclerView3);
+        recyclerView4 = view.findViewById(R.id.recyclerView4);
 
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         layoutManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         layoutManager3 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        layoutManager4 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView4.setLayoutManager(layoutManager4);
         recyclerView3.setLayoutManager(layoutManager3);
         recyclerView2.setLayoutManager(layoutManager2);
         recyclerView.setLayoutManager(layoutManager);
@@ -66,10 +74,14 @@ public class HomeFragment extends Fragment {
         contentList3 = new ArrayList<>();  // Initialize contentList before passing it to adapter
         contentAdapter3 = new ContentAdapter3(contentList3, getActivity());
         recyclerView3.setAdapter(contentAdapter3);
+        contentList4 = new ArrayList<>();  // Initialize contentList before passing it to adapter
+        contentAdapter4 = new ContentAdapter4(contentList4, getActivity());
+        recyclerView4.setAdapter(contentAdapter4);
 
         fetchTrendingToday();
         fetchPopular();
         fetchMovies();
+        fetchTvSeries();
 
         // Create a handler to trigger smooth scrolling every 3 seconds
         handler = new Handler();
@@ -83,6 +95,54 @@ public class HomeFragment extends Fragment {
         }, 3000); // Start after 2 seconds
 
         return view;
+    }
+
+    private void fetchTvSeries() {
+        String URL = BASE_URL + "tv/popular?language=en-US&api_key="+API_KEY;
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, response -> {
+            try {
+                contentList4.clear();  // Clear previous results
+                JSONArray results = response.getJSONArray("results");
+
+                if (results.length() == 0) {
+                    Toast.makeText(getActivity(), "No content found", Toast.LENGTH_SHORT).show();
+                }
+
+                for (int i = 0; i < results.length(); i++) {
+                    JSONObject contentObject = results.getJSONObject(i);
+
+                    Content4 content4 = new Content4(
+                            contentObject.optString("title", ""),
+                            contentObject.optString("overview", ""),
+                            contentObject.optString("poster_path", ""),
+                            contentObject.optString("release_date", ""),
+                            contentObject.optDouble("vote_average", 0.0),
+                            contentObject.optInt("id", 0),
+                            contentObject.optString("backdrop_path", ""),
+                            contentObject.optString("original_language", ""),
+                            contentObject.optString("original_title", ""),
+                            contentObject.optString("media_type", ""),
+                            contentObject.optBoolean("adult", false)  // Boolean value for adult
+                    );
+
+                    contentList4.add(content4);
+                }
+
+                // Update adapter after data is fetched
+                contentAdapter4.notifyDataSetChanged();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(getActivity(), "Error parsing content data", Toast.LENGTH_SHORT).show();
+            }
+        }, error -> {
+            Log.e("HomeFragment", "Error: " + error.getMessage());
+            Toast.makeText(getActivity(), "Error fetching data", Toast.LENGTH_SHORT).show();
+        });
+
+        requestQueue.add(jsonObjectRequest);
     }
 
     private void fetchMovies() {
