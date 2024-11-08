@@ -19,6 +19,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.horizonhunters.tmdb.R;
+import com.horizonhunters.tmdb.home.Movies.Content3;
+import com.horizonhunters.tmdb.home.Movies.ContentAdapter3;
 import com.horizonhunters.tmdb.home.Popular.Content2;
 import com.horizonhunters.tmdb.home.Popular.ContentAdapter2;
 import com.horizonhunters.tmdb.home.Trending.Today.Content;
@@ -30,13 +32,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private RecyclerView recyclerView, recyclerView2;
+    private RecyclerView recyclerView, recyclerView2, recyclerView3;
     private ContentAdapter contentAdapter;
     private ContentAdapter2 contentAdapter2;
+    private ContentAdapter3 contentAdapter3;
     private List<Content> contentList;
     private List<Content2> contentList2;
+    private List<Content3> contentList3;
     private Handler handler;
-    private LinearLayoutManager layoutManager, layoutManager2;
+    private LinearLayoutManager layoutManager, layoutManager2, layoutManager3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,9 +48,12 @@ public class HomeFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView2 = view.findViewById(R.id.recyclerView2);
+        recyclerView3 = view.findViewById(R.id.recyclerView3);
 
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         layoutManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        layoutManager3 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView3.setLayoutManager(layoutManager3);
         recyclerView2.setLayoutManager(layoutManager2);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -56,9 +63,13 @@ public class HomeFragment extends Fragment {
         contentList2 = new ArrayList<>();  // Initialize contentList before passing it to adapter
         contentAdapter2 = new ContentAdapter2(contentList2, getActivity());
         recyclerView2.setAdapter(contentAdapter2);
+        contentList3 = new ArrayList<>();  // Initialize contentList before passing it to adapter
+        contentAdapter3 = new ContentAdapter3(contentList3, getActivity());
+        recyclerView3.setAdapter(contentAdapter3);
 
         fetchTrendingToday();
         fetchPopular();
+        fetchMovies();
 
         // Create a handler to trigger smooth scrolling every 3 seconds
         handler = new Handler();
@@ -72,6 +83,54 @@ public class HomeFragment extends Fragment {
         }, 3000); // Start after 2 seconds
 
         return view;
+    }
+
+    private void fetchMovies() {
+        String URL = BASE_URL + "movie/popular?language=en-US&api_key="+API_KEY;
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, response -> {
+            try {
+                contentList3.clear();  // Clear previous results
+                JSONArray results = response.getJSONArray("results");
+
+                if (results.length() == 0) {
+                    Toast.makeText(getActivity(), "No content found", Toast.LENGTH_SHORT).show();
+                }
+
+                for (int i = 0; i < results.length(); i++) {
+                    JSONObject contentObject = results.getJSONObject(i);
+
+                    Content3 content3 = new Content3(
+                            contentObject.optString("title", ""),
+                            contentObject.optString("overview", ""),
+                            contentObject.optString("poster_path", ""),
+                            contentObject.optString("release_date", ""),
+                            contentObject.optDouble("vote_average", 0.0),
+                            contentObject.optInt("id", 0),
+                            contentObject.optString("backdrop_path", ""),
+                            contentObject.optString("original_language", ""),
+                            contentObject.optString("original_title", ""),
+                            contentObject.optString("media_type", ""),
+                            contentObject.optBoolean("adult", false)  // Boolean value for adult
+                    );
+
+                    contentList3.add(content3);
+                }
+
+                // Update adapter after data is fetched
+                contentAdapter3.notifyDataSetChanged();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(getActivity(), "Error parsing content data", Toast.LENGTH_SHORT).show();
+            }
+        }, error -> {
+            Log.e("HomeFragment", "Error: " + error.getMessage());
+            Toast.makeText(getActivity(), "Error fetching data", Toast.LENGTH_SHORT).show();
+        });
+
+        requestQueue.add(jsonObjectRequest);
     }
 
     // Fetch popular content
