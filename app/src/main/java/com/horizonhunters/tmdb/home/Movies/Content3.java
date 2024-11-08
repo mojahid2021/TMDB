@@ -6,7 +6,7 @@ public class Content3 {
     private String posterPath;
     private String releaseDate;
     private double voteAverage;
-    private int id;
+    private String id;
     private String backdropPath;
     private String originalLanguage;
     private String originalTitle;
@@ -15,7 +15,7 @@ public class Content3 {
 
     //Constructor
 
-    public Content3(String title, String overview, String posterPath, String releaseDate, double voteAverage, int id, String backdropPath, String originalLanguage, String originalTitle, String mediaType, boolean adult) {
+    public Content3(String title, String overview, String posterPath, String releaseDate, double voteAverage, String id, String backdropPath, String originalLanguage, String originalTitle, String mediaType, String genres, boolean adult) {
         this.title = title;
         this.overview = overview;
         this.posterPath = posterPath;
@@ -72,11 +72,11 @@ public class Content3 {
         this.voteAverage = voteAverage;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

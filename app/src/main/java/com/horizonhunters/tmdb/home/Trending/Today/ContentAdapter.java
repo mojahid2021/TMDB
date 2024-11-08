@@ -1,6 +1,7 @@
 package com.horizonhunters.tmdb.home.Trending.Today;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.horizonhunters.tmdb.Activity.MovieDetailsActivity;
 import com.horizonhunters.tmdb.R;
 import java.util.List;
 
@@ -32,7 +34,6 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentV
     @Override
     public void onBindViewHolder(@NonNull ContentAdapter.ContentViewHolder holder, int position) {
         Content content = contentList.get(position);
-
         // Set text fields
         holder.title.setText(content.getTitle());
         holder.releaseDate.setText(content.getReleaseDate());
@@ -52,6 +53,15 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentV
 
                     .into((ImageView) holder.backdropPath);  // Ensure backdropPath is an ImageView in the layout
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MovieDetailsActivity.class);
+                intent.putExtra("id", content.getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
