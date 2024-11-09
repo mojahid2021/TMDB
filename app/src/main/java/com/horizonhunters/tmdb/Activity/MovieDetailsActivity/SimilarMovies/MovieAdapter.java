@@ -1,4 +1,4 @@
-package com.horizonhunters.tmdb.home.Movies;
+package com.horizonhunters.tmdb.Activity.MovieDetailsActivity.SimilarMovies;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,50 +17,48 @@ import com.horizonhunters.tmdb.R;
 
 import java.util.List;
 
-public class ContentAdapter3 extends RecyclerView.Adapter<ContentAdapter3.ContentViewHolder3> {
-    private List<Content3> content3List;
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
+    private List<Movie> movieList;
     private Context context;
 
-    public ContentAdapter3(List<Content3> content3List, Context context) {
-        this.content3List = content3List;
+    public MovieAdapter(List<Movie> movieList, Context context) {
+        this.movieList = movieList;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public ContentAdapter3.ContentViewHolder3 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_poster, parent, false);
-        return new ContentViewHolder3(view);
+    public MovieAdapter.MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_poster, parent, false);
+        return new MovieViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ContentAdapter3.ContentViewHolder3 holder, int position) {
-        Content3 content3 = content3List.get(position);
+    public void onBindViewHolder(@NonNull MovieAdapter.MovieViewHolder holder, int position) {
+        Movie movie = movieList.get(position);
         Glide.with(context)
-                .load("https://image.tmdb.org/t/p/w500" + content3.getPosterPath()) // Base URL for TMDB images
-                // Placeholder image
+                .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())// Replace with an actual error drawable
                 .into(holder.poster);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String movieId = content3.getId();
+                String movieId = movie.getId();
                 Log.d("ContentAdapter3", "Movie ID: " + movieId); // Log the ID
                 Intent intent = new Intent(context, MovieDetailsActivity.class);
                 intent.putExtra("movieId", movieId);
                 context.startActivity(intent);
             }
         });
-
     }
 
     @Override
     public int getItemCount() {
-        return content3List.size();
+        return movieList.size();
     }
 
-    public class ContentViewHolder3 extends RecyclerView.ViewHolder {
+    public class MovieViewHolder extends RecyclerView.ViewHolder {
         ImageView poster;
-        public ContentViewHolder3(@NonNull View itemView) {
+        public MovieViewHolder(@NonNull View itemView) {
             super(itemView);
             poster = itemView.findViewById(R.id.poster);
         }
