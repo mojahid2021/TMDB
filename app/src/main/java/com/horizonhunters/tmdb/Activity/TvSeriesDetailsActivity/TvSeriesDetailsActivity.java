@@ -28,6 +28,9 @@ import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.Credits.CreditAdapt
 import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.MovieDetailsActivity;
 import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.SimilarMovies.Movie;
 import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.SimilarMovies.MovieAdapter;
+import com.horizonhunters.tmdb.Activity.TvSeriesDetailsActivity.SeasonDetails.SeasonDetailsActivity;
+import com.horizonhunters.tmdb.Activity.TvSeriesDetailsActivity.Seasons.Season;
+import com.horizonhunters.tmdb.Activity.TvSeriesDetailsActivity.Seasons.SeasonAdapter;
 import com.horizonhunters.tmdb.R;
 import com.horizonhunters.tmdb.genres.GenresAdapter;
 
@@ -49,8 +52,9 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
     private GenresAdapter genresAdapter;
     private MovieAdapter movieAdapter;
     private CreditAdapter creditAdapter;
-    private RecyclerView genresRecyclerView, recyclerView1, recyclerView3;
+    private RecyclerView genresRecyclerView, recyclerView1, recyclerView3,recyclerView4;
 
+    public static String SERIESID;
     private String id; // Default id
 
     @Override
@@ -65,6 +69,7 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
         recyclerView1 = findViewById(R.id.recyclerView1);
         genresRecyclerView = findViewById(R.id.genresRecyclerView);
         recyclerView3 = findViewById(R.id.recyclerView3);
+        recyclerView4 = findViewById(R.id.recyclerView4);
 
         // Initialize adapters
         genresAdapter = new GenresAdapter(genreList);
@@ -95,6 +100,9 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
         fetchSimilarMovies();
         fetchCredit();
     }
+
+
+
 
     private void fetchCredit() {
         String URL = BASE_URL + "tv/" + id + "/credits?language=en-US&api_key=" + API_KEY;
@@ -205,6 +213,9 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
                         String releaseDate = response.getString("first_air_date"); // Corrected: "first_air_date" instead of "release_date"
                         double rating = response.getDouble("vote_average");
                         String backdropPath = response.getString("backdrop_path");
+                        String id = response.getString("id");
+
+                        SERIESID = id;
 
                         JSONArray genresArray = response.getJSONArray("genres");
                         genreList.clear();
@@ -217,6 +228,8 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
                         movieOverview.setText(overview);
                         genresAdapter.notifyDataSetChanged();
 
+
+
                         if (backdropPath != null && !backdropPath.isEmpty()) {
                             String backdropUrl = "https://image.tmdb.org/t/p/w1280" + backdropPath;
                             Glide.with(TvSeriesDetailsActivity.this)
@@ -225,6 +238,31 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
                         } else {
                             Log.e("MovieDetailsActivity", "Backdrop path is empty");
                         }
+
+                        // Fetch seasons
+                        JSONArray seasonsArray = response.getJSONArray("seasons");
+                        List<Season> seasonList = new ArrayList<>();
+                        for (int i = 0; i < seasonsArray.length(); i++) {
+                            JSONObject seasonObject = seasonsArray.getJSONObject(i);
+
+                            Season season = new Season(
+                                    seasonObject.optString("id"),
+                                    seasonObject.optString("name"),
+                                    seasonObject.optString("episode_count",""),
+                                    seasonObject.optString("air_date", ""),
+                                    seasonObject.optString("overview", ""),
+                                    seasonObject.optString("season_number", ""),
+                                    seasonObject.optString("poster_path", ""),
+                                    seasonObject.optDouble("vote_average", 0.0)
+                            );
+
+                            seasonList.add(season);
+                        }
+
+                        // Assuming you have an adapter to handle season data
+                        SeasonAdapter seasonAdapter = new SeasonAdapter(this, seasonList);
+                        recyclerView4.setAdapter(seasonAdapter);
+
 
                     } catch (JSONException e) {
                         Toast.makeText(TvSeriesDetailsActivity.this, "Error parsing movie details", Toast.LENGTH_SHORT).show();
