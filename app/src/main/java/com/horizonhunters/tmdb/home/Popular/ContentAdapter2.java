@@ -1,6 +1,8 @@
 package com.horizonhunters.tmdb.home.Popular;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.MovieDetailsActivity;
 import com.horizonhunters.tmdb.R;
 
 import java.util.List;
@@ -33,26 +36,41 @@ public class ContentAdapter2 extends RecyclerView.Adapter<ContentAdapter2.Conten
 
     @Override
     public void onBindViewHolder(@NonNull ContentViewHolder holder, int position) {
-        Content2 content = contentList.get(position);
+        Content2 content2 = contentList.get(position);
 
         // Set text fields
-//        holder.title.setText(content.getTitle());
-//        holder.releaseDate.setText(content.getReleaseDate());
-//        holder.voteAverage.setText(String.valueOf(content.getVoteAverage()));
-//        holder.mediaType.setText(content.getMediaType());
+//        holder.title.setText(content2.getTitle());
+//        holder.releaseDate.setText(content2.getReleaseDate());
+//        holder.voteAverage.setText(String.valueOf(content2.getVoteAverage()));
+//        holder.mediaType.setText(content2.getMediaType());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("ContentAdapter2", "Clicked item ID: " + content2.getId());
+
+                if (content2.getMediaType().equals("movie")) {
+                    Intent intent = new Intent(context, MovieDetailsActivity.class);
+                    intent.putExtra("movieId", content2.getId());
+                    context.startActivity(intent);
+                } else if (content2.getMediaType().equals("tv")) {
+                    Intent intent = new Intent(context, MovieDetailsActivity.class);
+                    intent.putExtra("id", content2.getId());
+                    context.startActivity(intent);
+                }
+            }
+        });
 
         // Load poster image
         Glide.with(context)
-                .load("https://image.tmdb.org/t/p/w500" + content.getPosterPath()) // Base URL for TMDB images
-                // Placeholder image
+                .load("https://image.tmdb.org/t/p/w500" + content2.getPosterPath())
                 .into(holder.posterPath);
 
-        // Optional: Load backdrop image if needed
-//        if (content.getBackdropPath() != null) {
+//        // Optional: Load backdrop image if needed
+//        if (content2.getBackdropPath() != null) {
 //            Glide.with(context)
-//                    .load("https://image.tmdb.org/t/p/w1280" + content.getBackdropPath())
-//
-//                    .into((ImageView) holder.backdropPath);  // Ensure backdropPath is an ImageView in the layout
+//                    .load("https://image.tmdb.org/t/p/w1280" + content2.getBackdropPath())
+//                    .into(holder.backdropPath);
 //        }
     }
 
@@ -64,16 +82,16 @@ public class ContentAdapter2 extends RecyclerView.Adapter<ContentAdapter2.Conten
     public class ContentViewHolder extends RecyclerView.ViewHolder {
         TextView title, releaseDate, voteAverage, mediaType;
         ImageView posterPath;
-        ImageView backdropPath;  // Change to ImageView for backdrop image
+        ImageView backdropPath;
 
         public ContentViewHolder(@NonNull View itemView) {
             super(itemView);
-          //  title = itemView.findViewById(R.id.title);
-        //    releaseDate = itemView.findViewById(R.id.releaseDate);
-        //    voteAverage = itemView.findViewById(R.id.voteAverage);
-      //      mediaType = itemView.findViewById(R.id.mediaType);
-            posterPath = itemView.findViewById(R.id.poster);
-        //    backdropPath = itemView.findViewById(R.id.backDrop);
+//            title = itemView.findViewById(R.id.title);
+//            releaseDate = itemView.findViewById(R.id.releaseDate);
+//            voteAverage = itemView.findViewById(R.id.voteAverage);
+//            mediaType = itemView.findViewById(R.id.mediaType);
+              posterPath = itemView.findViewById(R.id.poster);
+//            backdropPath = itemView.findViewById(R.id.backDrop);
         }
     }
 }

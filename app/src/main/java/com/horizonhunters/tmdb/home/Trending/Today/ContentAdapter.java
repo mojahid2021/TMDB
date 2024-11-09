@@ -2,6 +2,7 @@ package com.horizonhunters.tmdb.home.Trending.Today;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,9 +57,17 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentV
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MovieDetailsActivity.class);
-                intent.putExtra("id", content.getId());
-                context.startActivity(intent);
+                Log.d("ContentAdapter2", "Clicked item ID: " + content.getId());
+
+                if (content.getMediaType().equals("movie")) {
+                    Intent intent = new Intent(context, MovieDetailsActivity.class);
+                    intent.putExtra("movieId", content.getId());
+                    context.startActivity(intent);
+                } else if (content.getMediaType().equals("tv")) {
+                    Intent intent = new Intent(context, MovieDetailsActivity.class);
+                    intent.putExtra("id", content.getId());
+                    context.startActivity(intent);
+                }
             }
         });
     }
