@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.MovieDetailsActivity;
+import com.horizonhunters.tmdb.Activity.TvSeriesDetailsActivity.TvSeriesDetailsActivity;
 import com.horizonhunters.tmdb.R;
 import java.util.List;
 
@@ -64,8 +65,8 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentV
                     intent.putExtra("movieId", content.getId());
                     context.startActivity(intent);
                 } else if (content.getMediaType().equals("tv")) {
-                    Intent intent = new Intent(context, MovieDetailsActivity.class);
-                    intent.putExtra("id", content.getId());
+                    Intent intent = new Intent(context, TvSeriesDetailsActivity.class);
+                    intent.putExtra("movieId", content.getId());
                     context.startActivity(intent);
                 }
             }
