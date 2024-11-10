@@ -219,8 +219,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
                                     .load(backdropUrl)
                                     .into(backDrop);
                         } else {
-                            Log.e("MovieDetailsActivity", "Backdrop path is empty");
+                            // Load the static image as a fallback
+                            Glide.with(MovieDetailsActivity.this)
+                                    .load(R.drawable.backdrop_error)
+                                    .into(backDrop);
                         }
+
 
                     } catch (JSONException e) {
                         Toast.makeText(MovieDetailsActivity.this, "Error parsing movie details", Toast.LENGTH_SHORT).show();

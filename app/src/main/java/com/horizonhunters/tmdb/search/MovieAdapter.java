@@ -1,6 +1,8 @@
 package com.horizonhunters.tmdb.search;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.MovieDetailsActivity;
+import com.horizonhunters.tmdb.Activity.TvSeriesDetailsActivity.TvSeriesDetailsActivity;
 import com.horizonhunters.tmdb.R;
 
 import java.util.List;
@@ -42,7 +46,30 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         holder.releaseDate.setText(movie.getReleaseDate());
         holder.voteAverage.setText(String.valueOf(movie.getVoteAverage()));
 
-        Glide.with(context).load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath()).into(holder.poster);
+        if (movie.getPosterPath() != null) {
+            Glide.with(context).load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath()).into(holder.poster);
+        } else {
+            // Set a placeholder image if posterPath is null
+            holder.poster.setImageResource(R.drawable.error_poster);
+        }
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("ContentAdapter2", "Clicked item ID: " + movie.getId());
+
+                if (movie.getMediaType().equals("movie")) {
+                    Intent intent = new Intent(context, MovieDetailsActivity.class);
+                    intent.putExtra("movieId", movie.getId());
+                    context.startActivity(intent);
+                } else if (movie.getMediaType().equals("tv")) {
+                    Intent intent = new Intent(context, TvSeriesDetailsActivity.class);
+                    intent.putExtra("movieId", movie.getId());
+                    context.startActivity(intent);
+                }
+            }
+        });
 
     }
 

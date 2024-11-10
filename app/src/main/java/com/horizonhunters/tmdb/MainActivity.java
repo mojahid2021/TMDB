@@ -1,10 +1,18 @@
 package com.horizonhunters.tmdb;
 
+import static com.horizonhunters.tmdb.Connstant.API_KEY;
+import static com.horizonhunters.tmdb.Connstant.BASE_URL;
+
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -13,12 +21,27 @@ import androidx.appcompat.widget.SearchView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.horizonhunters.tmdb.discover.DiscoverFragment;
 import com.horizonhunters.tmdb.home.HomeFragment;
 import com.horizonhunters.tmdb.profile.ProfileFragment;
+import com.horizonhunters.tmdb.search.Movie;
+import com.horizonhunters.tmdb.search.MovieAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private SearchView searchView;
+    private PopupWindow popupWindow;
+    private List<Movie> movieList; // Sample data for testing
+    private MovieAdapter movieAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             loadFragment(new HomeFragment());
         }
+
+        // Initialize the movie list and adapter
+        movieList = new ArrayList<>();
+        movieAdapter = new MovieAdapter(movieList, this);
 
         // Bottom navigation setup
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -100,9 +130,11 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // Handle search query submission
-                return false;
+                // Sample data, replace with actual search logic
+                fetchSearchResults(query);
+                return true;
             }
+
 
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -136,4 +168,69 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    private void fetchSearchResults(String searchQuery) {
+        // Show the progress bar while loading data
+        String URL = BASE_URL + "search/multi?query=" + searchQuery + "&include_adult=true&language=en-US&api_key=" + API_KEY;
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, response -> {
+            try {
+                movieList.clear(); // Clear previous results
+                JSONArray results = response.getJSONArray("results");
+
+                if (results.length() == 0) {
+                    Toast.makeText(this, "No movies found", Toast.LENGTH_SHORT).show();
+                }
+
+                for (int i = 0; i < results.length(); i++) {
+                    JSONObject movieObject = results.getJSONObject(i);
+
+                    String title = movieObject.optString("title", "Unknown Title");
+                    String overview = movieObject.optString("overview", "No Overview Available");
+                    String posterPath = movieObject.optString("poster_path", null);
+                    String releaseDate = movieObject.optString("release_date", "Unknown Date");
+                    double voteAverage = movieObject.optDouble("vote_average", 0.0);
+                    String id = movieObject.getString("id");
+                    String backdropPath = movieObject.optString("backdrop_path", null);
+                    String mediaType = movieObject.optString("media_type", "Unknown");
+                    String originalLanguage = movieObject.optString("original_language", "Unknown");
+                    String originalTitle = movieObject.optString("original_title", "Unknown Title");
+                    boolean adult = movieObject.optBoolean("adult", false);
+
+                    Movie movie = new Movie(title, overview, posterPath, releaseDate, voteAverage, mediaType, id, backdropPath, originalLanguage, originalTitle, adult);
+                    movieList.add(movie);
+                }
+
+
+                // Show the search results in a pop-up window
+                showPopupWindow();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Error parsing movie data", Toast.LENGTH_SHORT).show();
+            }
+        }, error -> {
+            Log.e("MainActivity", "Error: " + error.getMessage());
+            Toast.makeText(this, "Error fetching data", Toast.LENGTH_SHORT).show();
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void showPopupWindow() {
+        // Inflate the pop-up layout
+        View popupView = LayoutInflater.from(this).inflate(R.layout.popup_search_results, null);
+
+        // Initialize the pop-up window
+        popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        // Setup RecyclerView in the pop-up window
+        RecyclerView recyclerView = popupView.findViewById(R.id.popup_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(movieAdapter);
+
+        // Show the pop-up window
+        popupWindow.showAtLocation(findViewById(android.R.id.content), android.view.Gravity.CENTER, 0, 0);
+    }
+
 }

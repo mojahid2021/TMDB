@@ -236,8 +236,11 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
                                     .load(backdropUrl)
                                     .into(backDrop);
                         } else {
-                            Log.e("MovieDetailsActivity", "Backdrop path is empty");
+                            Glide.with(TvSeriesDetailsActivity.this)
+                                    .load(R.drawable.backdrop_error)
+                                    .into(backDrop);
                         }
+
 
                         // Fetch seasons
                         JSONArray seasonsArray = response.getJSONArray("seasons");

@@ -36,9 +36,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @Override
     public void onBindViewHolder(@NonNull MovieAdapter.MovieViewHolder holder, int position) {
         Movie movie = movieList.get(position);
-        Glide.with(context)
-                .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())// Replace with an actual error drawable
-                .into(holder.poster);
+
+        if (movie.getPosterPath() != null) {
+            Glide.with(context).load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath()).into(holder.poster);
+        } else {
+            // Set a placeholder image if posterPath is null
+            holder.poster.setImageResource(R.drawable.error_poster);
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
