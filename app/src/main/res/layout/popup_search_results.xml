@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
     android:orientation="vertical"
-    android:padding="16dp"
-    >
+    android:padding="16dp">
+    <!-- BlurView to add background blur effect -->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/popup_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
+        <!--Any child View here, TabLayout for example. This View will NOT be blurred -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/popup_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
 </LinearLayout>

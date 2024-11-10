@@ -3,6 +3,8 @@ package com.horizonhunters.tmdb;
 import static com.horizonhunters.tmdb.Connstant.API_KEY;
 import static com.horizonhunters.tmdb.Connstant.BASE_URL;
 
+import android.graphics.RenderEffect;
+import android.graphics.Shader;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
@@ -66,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
             loadFragment(new HomeFragment());
         }
 
+
+
         // Initialize the movie list and adapter
         movieList = new ArrayList<>();
         movieAdapter = new MovieAdapter(movieList, this);
@@ -91,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
 
         // Toolbar setup
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);

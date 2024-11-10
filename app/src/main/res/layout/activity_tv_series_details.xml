@@ -14,7 +14,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             app:cardCornerRadius="12dp"
-            android:layout_height="200dp">
+            android:layout_height="220dp">
             <ImageView
                 android:id="@+id/backDrop"
                 android:layout_width="match_parent"
