@@ -108,6 +108,14 @@
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layoutDirection="ltr" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_trending_today"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"/>
     </LinearLayout>
 
     </ScrollView>
