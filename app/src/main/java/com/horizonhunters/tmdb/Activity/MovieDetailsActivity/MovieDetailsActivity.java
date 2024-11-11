@@ -26,6 +26,7 @@ import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.SimilarMovies.Movie
 import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.SimilarMovies.MovieAdapter;
 import com.horizonhunters.tmdb.CustomProgressDialog;
 import com.horizonhunters.tmdb.R;
+import com.horizonhunters.tmdb.VoteBarView;
 import com.horizonhunters.tmdb.genres.GenresAdapter;
 import com.horizonhunters.tmdb.home.Movies.Content3;
 
@@ -219,6 +220,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
                         title.setText(getTitle);
                         movieOverview.setText(overview);
                         showReleaseDate.setText("Release Date : "+releaseDate);
+                        VoteBarView voteBar = findViewById(R.id.voteBar);
+                        voteBar.setPercentage((float) rating); // Animate to 80%
                         genresAdapter.notifyDataSetChanged();
 
                         if (backdropPath != null && !backdropPath.isEmpty()) {

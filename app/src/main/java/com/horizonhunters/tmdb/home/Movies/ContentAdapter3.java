@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +37,7 @@ public class ContentAdapter3 extends RecyclerView.Adapter<ContentAdapter3.Conten
     @Override
     public void onBindViewHolder(@NonNull ContentAdapter3.ContentViewHolder3 holder, int position) {
         Content3 content3 = content3List.get(position);
+//        holder.title.setText(content3.getTitle());
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500" + content3.getPosterPath()) // Base URL for TMDB images
                 // Placeholder image
@@ -60,9 +62,11 @@ public class ContentAdapter3 extends RecyclerView.Adapter<ContentAdapter3.Conten
 
     public class ContentViewHolder3 extends RecyclerView.ViewHolder {
         ImageView poster;
+        TextView title;
         public ContentViewHolder3(@NonNull View itemView) {
             super(itemView);
             poster = itemView.findViewById(R.id.poster);
+//            title = itemView.findViewById(R.id.title);
         }
     }
 }
