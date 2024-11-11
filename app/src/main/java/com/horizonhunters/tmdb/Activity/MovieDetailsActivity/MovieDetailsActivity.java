@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieDetailsActivity extends AppCompatActivity {
-    private TextView title;
+    private TextView title,showReleaseDate;
     private TextView movieOverview;
     private ImageView backDrop;
     private List<String> genreList = new ArrayList<>();
@@ -60,6 +60,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         // Initialize views
         backDrop = findViewById(R.id.backDrop);
         title = findViewById(R.id.title);
+        showReleaseDate = findViewById(R.id.showReleaseDate);
         movieOverview = findViewById(R.id.movieOverview);
         recyclerView1 = findViewById(R.id.recyclerView1);
         genresRecyclerView = findViewById(R.id.genresRecyclerView);
@@ -217,6 +218,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
                         title.setText(getTitle);
                         movieOverview.setText(overview);
+                        showReleaseDate.setText("Release Date : "+releaseDate);
                         genresAdapter.notifyDataSetChanged();
 
                         if (backdropPath != null && !backdropPath.isEmpty()) {

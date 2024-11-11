@@ -37,9 +37,19 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeV
         holder.tvEpisodeVoteAverage.setText("Rating: " + episode.getVoteAverage());
 
         // Load image using Glide or any other image loading library
-        Glide.with(holder.ivEpisodeThumbnail.getContext())
-                .load("https://image.tmdb.org/t/p/w500" + episode.getStillPath())
-                .into(holder.ivEpisodeThumbnail);
+
+
+        if (episode.getStillPath() != null) {
+            Glide.with(holder.ivEpisodeThumbnail.getContext())
+                    .load("https://image.tmdb.org/t/p/w500" + episode.getStillPath())
+                    .into(holder.ivEpisodeThumbnail);
+        } else {
+            // Set a placeholder image if stillPath is null or empty
+            Glide.with(holder.ivEpisodeThumbnail.getContext())
+                    .load(R.drawable.backdrop_error)
+                    .into(holder.ivEpisodeThumbnail);
+        }
+
     }
 
     @Override
