@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.horizonhunters.tmdb.CustomProgressDialog;
 import com.horizonhunters.tmdb.R;
 import com.horizonhunters.tmdb.home.Movies.Content3;
 import com.horizonhunters.tmdb.home.Movies.ContentAdapter3;
@@ -50,10 +51,12 @@ public class HomeFragment extends Fragment {
     private List<Content5> contentList5;
     private Handler handler;
     private LinearLayoutManager layoutManager, layoutManager2, layoutManager3, layoutManager4, layoutManager5;
-
+    private CustomProgressDialog progressDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        progressDialog = new CustomProgressDialog(getActivity());
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView2 = view.findViewById(R.id.recyclerView2);
@@ -110,6 +113,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchUpcoming() {
+        progressDialog.show();
         String URL = BASE_URL + "movie/upcoming?language=en-US&api_key="+API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
@@ -141,7 +145,7 @@ public class HomeFragment extends Fragment {
 
                     contentList5.add(content5);
                 }
-
+                progressDialog.dismiss();
                 // Update adapter after data is fetched
                 contentAdapter5.notifyDataSetChanged();
 
@@ -158,6 +162,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchTvSeries() {
+        progressDialog.show();
         String URL = BASE_URL + "tv/popular?language=en-US&api_key="+API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
@@ -190,6 +195,8 @@ public class HomeFragment extends Fragment {
                     contentList4.add(content4);
                 }
 
+                progressDialog.dismiss();
+
                 // Update adapter after data is fetched
                 contentAdapter4.notifyDataSetChanged();
 
@@ -206,6 +213,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchMovies() {
+        progressDialog.show();
         String URL = BASE_URL + "movie/popular?language=en-US&api_key="+API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
@@ -239,6 +247,8 @@ public class HomeFragment extends Fragment {
                     contentList3.add(content3);
                 }
 
+                progressDialog.dismiss();
+
                 // Update adapter after data is fetched
                 contentAdapter3.notifyDataSetChanged();
 
@@ -256,6 +266,7 @@ public class HomeFragment extends Fragment {
 
     // Fetch popular content
     private void fetchPopular() {
+        progressDialog.show();
         String URL = BASE_URL + "trending/all/week?language=en-US&api_key="+API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
@@ -287,7 +298,7 @@ public class HomeFragment extends Fragment {
 
                     contentList2.add(content2);
                 }
-
+                progressDialog.dismiss();
                 // Update adapter after data is fetched
                 contentAdapter2.notifyDataSetChanged();
 
@@ -313,6 +324,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchTrendingToday() {
+        progressDialog.show();
         String URL = BASE_URL + "trending/all/day?language=en-US&api_key="+API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
@@ -344,7 +356,7 @@ public class HomeFragment extends Fragment {
 
                     contentList.add(content);
                 }
-
+                progressDialog.dismiss();
                 // Update adapter after data is fetched
                 contentAdapter.notifyDataSetChanged();
 

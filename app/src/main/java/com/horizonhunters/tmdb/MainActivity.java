@@ -3,9 +3,11 @@ package com.horizonhunters.tmdb;
 import static com.horizonhunters.tmdb.Connstant.API_KEY;
 import static com.horizonhunters.tmdb.Connstant.BASE_URL;
 
+import android.content.SharedPreferences;
 import android.graphics.RenderEffect;
 import android.graphics.Shader;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -43,6 +45,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
     private PopupWindow popupWindow;
     private List<Movie> movieList; // Sample data for testing
     private MovieAdapter movieAdapter;
+    private CustomProgressDialog progressDialog;
+    private Handler handler = new Handler();
+    private long oneHourInMillis = 60 * 60 * 1000; // 1 hour in milliseconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +75,10 @@ public class MainActivity extends AppCompatActivity {
             loadFragment(new HomeFragment());
         }
 
+        // Start the periodic cache check
+        handler.postDelayed(runnable, oneHourInMillis);
 
+        progressDialog = new CustomProgressDialog(this);
 
         // Initialize the movie list and adapter
         movieList = new ArrayList<>();
@@ -153,6 +162,57 @@ public class MainActivity extends AppCompatActivity {
         addSearchViewAnimations();
     }
 
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            checkAndClearCache();
+            handler.postDelayed(this, oneHourInMillis); // Repeat every hour
+        }
+    };
+
+    private void checkAndClearCache() {
+        SharedPreferences sharedPreferences = getSharedPreferences("CachePrefs", MODE_PRIVATE);
+        long lastCacheClearTime = sharedPreferences.getLong("lastCacheClearTime", 0);
+        long currentTime = System.currentTimeMillis();
+
+        if (currentTime - lastCacheClearTime >= oneHourInMillis) {
+            clearAppCache();
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putLong("lastCacheClearTime", currentTime);
+            editor.apply();
+        }
+    }
+
+    private void clearAppCache() {
+        try {
+            File cacheDir = getCacheDir();
+            if (cacheDir != null && cacheDir.isDirectory()) {
+                deleteDir(cacheDir);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (String child : children) {
+                boolean success = deleteDir(new File(dir, child));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if (dir != null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
+    }
+
+
     private void loadFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.FrameLayout, fragment);
@@ -175,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void fetchSearchResults(String searchQuery) {
+        progressDialog.show();
         // Show the progress bar while loading data
         String URL = BASE_URL + "search/multi?query=" + searchQuery + "&include_adult=true&language=en-US&api_key=" + API_KEY;
 
@@ -207,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
                     movieList.add(movie);
                 }
 
-
+                progressDialog.dismiss();
                 // Show the search results in a pop-up window
                 showPopupWindow();
 

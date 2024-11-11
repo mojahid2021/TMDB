@@ -31,6 +31,7 @@ import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.SimilarMovies.Movie
 import com.horizonhunters.tmdb.Activity.TvSeriesDetailsActivity.SeasonDetails.SeasonDetailsActivity;
 import com.horizonhunters.tmdb.Activity.TvSeriesDetailsActivity.Seasons.Season;
 import com.horizonhunters.tmdb.Activity.TvSeriesDetailsActivity.Seasons.SeasonAdapter;
+import com.horizonhunters.tmdb.CustomProgressDialog;
 import com.horizonhunters.tmdb.R;
 import com.horizonhunters.tmdb.genres.GenresAdapter;
 
@@ -53,7 +54,7 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
     private MovieAdapter movieAdapter;
     private CreditAdapter creditAdapter;
     private RecyclerView genresRecyclerView, recyclerView1, recyclerView3,recyclerView4;
-
+    private CustomProgressDialog progressDialog;
     public static String SERIESID;
     private String id; // Default id
 
@@ -61,6 +62,8 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tv_series_details);
+
+        progressDialog = new CustomProgressDialog(this);
 
         // Initialize views
         backDrop = findViewById(R.id.backDrop);
@@ -105,6 +108,7 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
 
 
     private void fetchCredit() {
+        progressDialog.show();
         String URL = BASE_URL + "tv/" + id + "/credits?language=en-US&api_key=" + API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -135,7 +139,7 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
 
                     creditList.add(credit);
                 }
-
+                progressDialog.dismiss();
                 creditAdapter.notifyDataSetChanged();
 
             } catch (JSONException e) {
@@ -152,6 +156,7 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
 
 
     private void fetchSimilarMovies() {
+        progressDialog.show();
         String URL = BASE_URL + "tv/" + id + "/similar?language=en-US&api_key=" + API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -183,7 +188,7 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
 
                     movieList.add(movie);
                 }
-
+                progressDialog.dismiss();
                 movieAdapter.notifyDataSetChanged();
 
             } catch (JSONException e) {
@@ -199,6 +204,7 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
     }
 
     private void fetchMovieDetails() {
+        progressDialog.show();
         String Url = BASE_URL + "tv/" + id + "?language=en-US&api_key=" + API_KEY; // Fixed: used "show" endpoint
         Log.d("MovieDetailsActivity", "API URL: " + Url);
 
@@ -261,7 +267,7 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
 
                             seasonList.add(season);
                         }
-
+                        progressDialog.dismiss();
                         // Assuming you have an adapter to handle season data
                         SeasonAdapter seasonAdapter = new SeasonAdapter(this, seasonList);
                         recyclerView4.setAdapter(seasonAdapter);

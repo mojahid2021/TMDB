@@ -24,6 +24,7 @@ import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.Credits.Credit;
 import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.Credits.CreditAdapter;
 import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.SimilarMovies.Movie;
 import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.SimilarMovies.MovieAdapter;
+import com.horizonhunters.tmdb.CustomProgressDialog;
 import com.horizonhunters.tmdb.R;
 import com.horizonhunters.tmdb.genres.GenresAdapter;
 import com.horizonhunters.tmdb.home.Movies.Content3;
@@ -46,13 +47,15 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private MovieAdapter movieAdapter;
     private CreditAdapter creditAdapter;
     private RecyclerView genresRecyclerView, recyclerView1, recyclerView3;
-
+    private CustomProgressDialog progressDialog;
     private String id; // Default id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
+
+        progressDialog = new CustomProgressDialog(this);
 
         // Initialize views
         backDrop = findViewById(R.id.backDrop);
@@ -93,6 +96,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void fetchCredit() {
+        progressDialog.show();
         String URL = BASE_URL + "movie/" + id + "/credits?language=en-US&api_key=" + API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -123,7 +127,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
                     creditList.add(credit);
                 }
-
+                progressDialog.dismiss();
                 creditAdapter.notifyDataSetChanged();
 
             } catch (JSONException e) {
@@ -140,6 +144,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
 
     private void fetchSimilarMovies() {
+        progressDialog.show();
         String URL = BASE_URL + "movie/" + id + "/similar?language=en-US&api_key=" + API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -171,7 +176,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
                     movieList.add(movie);
                 }
-
+                progressDialog.dismiss();
                 movieAdapter.notifyDataSetChanged();
 
             } catch (JSONException e) {
@@ -187,6 +192,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void fetchMovieDetails() {
+        progressDialog.show();
         String Url = BASE_URL + "movie/" + id + "?language=en-US&api_key=" + API_KEY;
         Log.d("MovieDetailsActivity", "API URL: " + Url);
 
@@ -225,7 +231,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                                     .into(backDrop);
                         }
 
-
+                        progressDialog.dismiss();
                     } catch (JSONException e) {
                         Toast.makeText(MovieDetailsActivity.this, "Error parsing movie details", Toast.LENGTH_SHORT).show();
                         Log.e("MovieDetailsActivity", "JSON parsing error", e);
