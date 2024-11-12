@@ -139,7 +139,7 @@
 
 
                            <androidx.cardview.widget.CardView
-                               android:layout_width="115dp"
+                               android:layout_width="110dp"
                                android:layout_marginRight="2dp"
                                android:layout_height="5dp">
                                <com.horizonhunters.tmdb.VoteBarView
