@@ -36,6 +36,7 @@
             android:textStyle="bold"
             android:text="Popular now"/>
         <ImageView
+            android:id="@+id/showPopularButton"
             android:layout_width="30dp"
             android:layout_height="match_parent"
             android:src="@drawable/ic_menu2"
@@ -65,6 +66,7 @@
                 android:textStyle="bold"
                 android:text="Movies"/>
             <ImageView
+                android:id="@+id/showMoviesButton"
                 android:layout_width="30dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_menu2"

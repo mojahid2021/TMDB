@@ -3,6 +3,7 @@ package com.horizonhunters.tmdb.home;
 import static com.horizonhunters.tmdb.Connstant.API_KEY;
 import static com.horizonhunters.tmdb.Connstant.BASE_URL;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,8 +24,10 @@ import com.horizonhunters.tmdb.CustomProgressDialog;
 import com.horizonhunters.tmdb.R;
 import com.horizonhunters.tmdb.home.Movies.Content3;
 import com.horizonhunters.tmdb.home.Movies.ContentAdapter3;
+import com.horizonhunters.tmdb.home.Movies.MoviesActivity;
 import com.horizonhunters.tmdb.home.Popular.Content2;
 import com.horizonhunters.tmdb.home.Popular.ContentAdapter2;
+import com.horizonhunters.tmdb.home.Popular.PopularActivity;
 import com.horizonhunters.tmdb.home.Trending.Today.Content;
 import com.horizonhunters.tmdb.home.Trending.Today.ContentAdapter;
 import com.horizonhunters.tmdb.home.TvSeries.Content4;
@@ -108,6 +112,23 @@ public class HomeFragment extends Fragment {
                 handler.postDelayed(this, 3000); // 3000ms = 3 seconds
             }
         }, 3000); // Start after 2 seconds
+
+        ImageView showMoviesButton = view.findViewById(R.id.showMoviesButton);
+        showMoviesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MoviesActivity.class);
+                startActivity(intent);
+            }
+        });
+        ImageView showPopularButton = view.findViewById(R.id.showPopularButton);
+        showPopularButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PopularActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

@@ -73,7 +73,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
                     android:layout_marginBottom="5dp"
-
                     android:textStyle="normal"
                     android:textColor="@color/white"
                     android:text="Eddie and Venom are on the run. Hunted by both of their worlds and with the net closing in, the duo are forced into a devastating decision that will bring the curtains down on Venom and Eddie's last dance."/>
