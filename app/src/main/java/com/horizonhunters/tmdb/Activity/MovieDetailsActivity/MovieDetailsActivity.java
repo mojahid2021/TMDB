@@ -25,6 +25,7 @@ import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.Credits.CreditAdapt
 import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.SimilarMovies.Movie;
 import com.horizonhunters.tmdb.Activity.MovieDetailsActivity.SimilarMovies.MovieAdapter;
 import com.horizonhunters.tmdb.CustomProgressDialog;
+import com.horizonhunters.tmdb.MainActivity;
 import com.horizonhunters.tmdb.R;
 import com.horizonhunters.tmdb.VoteBarView;
 import com.horizonhunters.tmdb.genres.GenresAdapter;
@@ -253,5 +254,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
         );
 
         Volley.newRequestQueue(this).add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(MovieDetailsActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

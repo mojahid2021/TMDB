@@ -32,6 +32,7 @@ import com.horizonhunters.tmdb.Activity.TvSeriesDetailsActivity.SeasonDetails.Se
 import com.horizonhunters.tmdb.Activity.TvSeriesDetailsActivity.Seasons.Season;
 import com.horizonhunters.tmdb.Activity.TvSeriesDetailsActivity.Seasons.SeasonAdapter;
 import com.horizonhunters.tmdb.CustomProgressDialog;
+import com.horizonhunters.tmdb.MainActivity;
 import com.horizonhunters.tmdb.R;
 import com.horizonhunters.tmdb.VoteBarView;
 import com.horizonhunters.tmdb.genres.GenresAdapter;
@@ -294,6 +295,13 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
         );
 
         Volley.newRequestQueue(this).add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(TvSeriesDetailsActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }
