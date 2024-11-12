@@ -31,17 +31,25 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeV
     @Override
     public void onBindViewHolder(@NonNull EpisodeViewHolder holder, int position) {
         Episode episode = episodeList.get(position);
-        holder.tvEpisodeName.setText(episode.getName());
-        holder.tvEpisodeOverview.setText(episode.getOverview());
         holder.tvEpisodeAirDate.setText("Air Date: " + episode.getAirDate());
         holder.tvEpisodeVoteAverage.setText("Rating: " + episode.getVoteAverage());
 
+        if (episode.getName() !=null ){
+            holder.tvEpisodeName.setText(episode.getName());
+        }else {
+            holder.tvEpisodeName.setText("No Name Found");
+        }
+
+        if (episode.getOverview() != null){
+            holder.tvEpisodeOverview.setText(episode.getOverview());
+        }else {
+            holder.tvEpisodeOverview.setText("No Overview Found");
+        }
+
         // Load image using Glide or any other image loading library
-
-
         if (episode.getStillPath() != null) {
             Glide.with(holder.ivEpisodeThumbnail.getContext())
-                    .load("https://image.tmdb.org/t/p/w500" + episode.getStillPath())
+                    .load("https://image.tmdb.org/t/p/w1280" + episode.getStillPath())
                     .into(holder.ivEpisodeThumbnail);
         } else {
             // Set a placeholder image if stillPath is null or empty

@@ -2,7 +2,7 @@ package com.horizonhunters.tmdb.Activity.TvSeriesDetailsActivity.SeasonDetails.E
 
 public class Episode {
     private String airDate;
-    private int episodeNumber;
+    private String episodeNumber;
     private String name;
     private String overview;
     private String stillPath;
@@ -10,7 +10,7 @@ public class Episode {
     private int runtime;
 
     // Constructor
-    public Episode(String airDate, int episodeNumber, String name, String overview, String stillPath, double voteAverage, int runtime) {
+    public Episode(String airDate, String episodeNumber, String name, String overview, String stillPath, double voteAverage, int runtime) {
         this.airDate = airDate;
         this.episodeNumber = episodeNumber;
         this.name = name;
@@ -31,11 +31,11 @@ public class Episode {
         this.airDate = airDate;
     }
 
-    public int getEpisodeNumber() {
+    public String getEpisodeNumber() {
         return episodeNumber;
     }
 
-    public void setEpisodeNumber(int episodeNumber) {
+    public void setEpisodeNumber(String episodeNumber) {
         this.episodeNumber = episodeNumber;
     }
 

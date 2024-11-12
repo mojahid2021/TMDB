@@ -33,6 +33,7 @@ import com.horizonhunters.tmdb.Activity.TvSeriesDetailsActivity.Seasons.Season;
 import com.horizonhunters.tmdb.Activity.TvSeriesDetailsActivity.Seasons.SeasonAdapter;
 import com.horizonhunters.tmdb.CustomProgressDialog;
 import com.horizonhunters.tmdb.R;
+import com.horizonhunters.tmdb.VoteBarView;
 import com.horizonhunters.tmdb.genres.GenresAdapter;
 
 import org.json.JSONArray;
@@ -222,6 +223,14 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
                         String id = response.getString("id");
 
                         SERIESID = id;
+                        TextView releaseDateTextView = findViewById(R.id.showReleaseDate);
+                        releaseDateTextView.setText("Release Date : " + releaseDate);
+
+                        TextView ratingTextView = findViewById(R.id.rating);
+                        ratingTextView.setText(String.valueOf(rating));
+
+                        VoteBarView voteBar = findViewById(R.id.voteBar);
+                        voteBar.setPercentage((float) rating); // Animate to 80%
 
                         JSONArray genresArray = response.getJSONArray("genres");
                         genreList.clear();

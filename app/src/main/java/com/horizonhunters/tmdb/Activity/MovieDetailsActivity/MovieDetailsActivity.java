@@ -220,6 +220,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
                         title.setText(getTitle);
                         movieOverview.setText(overview);
                         showReleaseDate.setText("Release Date : "+releaseDate);
+
+                        TextView ratingTextView = findViewById(R.id.rating);
+                        ratingTextView.setText(String.valueOf(rating));
+
                         VoteBarView voteBar = findViewById(R.id.voteBar);
                         voteBar.setPercentage((float) rating); // Animate to 80%
                         genresAdapter.notifyDataSetChanged();

@@ -70,10 +70,10 @@ public class SeasonDetailsActivity extends AppCompatActivity {
                         for (int i = 0; i < episodesArray.length(); i++) {
                             JSONObject episodeObj = episodesArray.getJSONObject(i);
 
-                            String airDate = episodeObj.optString("air_date");
-                            int episodeNumber = episodeObj.optInt("episode_number");
-                            String name = episodeObj.optString("name");
-                            String overview = episodeObj.optString("overview");
+                            String airDate = episodeObj.optString("air_date","Unknown Date");
+                            String episodeNumber = episodeObj.optString("episode_number","Episode Number Not Found");
+                            String name = episodeObj.optString("name","Episode Name Not Found");
+                            String overview = episodeObj.optString("overview","Overview Not Found");
                             String stillPath = episodeObj.optString("still_path", "");
                             double voteAverage = episodeObj.optDouble("vote_average", 0.0);
                             int runtime = episodeObj.optInt("runtime", 0);
