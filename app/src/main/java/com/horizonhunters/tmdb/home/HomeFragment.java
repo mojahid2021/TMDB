@@ -32,6 +32,7 @@ import com.horizonhunters.tmdb.home.Trending.Today.Content;
 import com.horizonhunters.tmdb.home.Trending.Today.ContentAdapter;
 import com.horizonhunters.tmdb.home.TvSeries.Content4;
 import com.horizonhunters.tmdb.home.TvSeries.ContentAdapter4;
+import com.horizonhunters.tmdb.home.TvSeries.TvSeriesActivity;
 import com.horizonhunters.tmdb.home.Upcoming.Content5;
 import com.horizonhunters.tmdb.home.Upcoming.ContentAdapter5;
 
@@ -126,6 +127,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), PopularActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageView showTvSeriesButton = view.findViewById(R.id.showTvSeriesButton);
+        showTvSeriesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), TvSeriesActivity.class);
                 startActivity(intent);
             }
         });

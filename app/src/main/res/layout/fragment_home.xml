@@ -96,6 +96,7 @@
                 android:textStyle="bold"
                 android:text="TV Series"/>
             <ImageView
+                android:id="@+id/showTvSeriesButton"
                 android:layout_width="30dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_menu2"

@@ -15,6 +15,9 @@
         android:theme="@style/Theme.TMDB"
         tools:targetApi="31">
         <activity
+            android:name=".home.TvSeries.TvSeriesActivity"
+            android:exported="false" />
+        <activity
             android:name=".home.Popular.PopularActivity"
             android:exported="false" />
         <activity
