@@ -38,7 +38,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MovieAdapter.MovieViewHolder holder, int position) {
-    //get the current movie and bind data to the view
+        //get the current movie and bind data to the view
         Movie movie = movieList.get(position);
         holder.originalLanguage.setText(movie.getOriginalLanguage());
         holder.originaltitle.setText(movie.getOriginalTitle());
@@ -82,6 +82,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         TextView originalLanguage, originaltitle, overview, releaseDate, voteAverage;
         ImageView poster, backdrop;
+
         MovieViewHolder(View itemView) {
             super(itemView);
 

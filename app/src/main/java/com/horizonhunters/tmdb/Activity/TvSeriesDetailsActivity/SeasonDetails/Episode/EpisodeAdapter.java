@@ -34,15 +34,15 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeV
         holder.tvEpisodeAirDate.setText("Air Date: " + episode.getAirDate());
         holder.tvEpisodeVoteAverage.setText("Rating: " + episode.getVoteAverage());
 
-        if (episode.getName() !=null ){
+        if (episode.getName() != null) {
             holder.tvEpisodeName.setText(episode.getName());
-        }else {
+        } else {
             holder.tvEpisodeName.setText("No Name Found");
         }
 
-        if (episode.getOverview() != null){
+        if (episode.getOverview() != null) {
             holder.tvEpisodeOverview.setText(episode.getOverview());
-        }else {
+        } else {
             holder.tvEpisodeOverview.setText("No Overview Found");
         }
 

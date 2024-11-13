@@ -28,6 +28,7 @@ public class Content {
         this.mediaType = mediaType;
         this.adult = adult;
     }
+
     // Getters and Setters
     public String getTitle() {
         return title;

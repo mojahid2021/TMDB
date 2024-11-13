@@ -55,7 +55,7 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
     private GenresAdapter genresAdapter;
     private MovieAdapter movieAdapter;
     private CreditAdapter creditAdapter;
-    private RecyclerView genresRecyclerView, recyclerView1, recyclerView3,recyclerView4;
+    private RecyclerView genresRecyclerView, recyclerView1, recyclerView3, recyclerView4;
     private CustomProgressDialog progressDialog;
     public static String SERIESID;
     private String id; // Default id
@@ -105,8 +105,6 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
         fetchSimilarMovies();
         fetchCredit();
     }
-
-
 
 
     private void fetchCredit() {
@@ -245,7 +243,6 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
                         genresAdapter.notifyDataSetChanged();
 
 
-
                         if (backdropPath != null && !backdropPath.isEmpty()) {
                             String backdropUrl = "https://image.tmdb.org/t/p/w1280" + backdropPath;
                             Glide.with(TvSeriesDetailsActivity.this)
@@ -267,7 +264,7 @@ public class TvSeriesDetailsActivity extends AppCompatActivity {
                             Season season = new Season(
                                     seasonObject.optString("id"),
                                     seasonObject.optString("name"),
-                                    seasonObject.optString("episode_count",""),
+                                    seasonObject.optString("episode_count", ""),
                                     seasonObject.optString("air_date", ""),
                                     seasonObject.optString("overview", ""),
                                     seasonObject.optString("season_number", ""),

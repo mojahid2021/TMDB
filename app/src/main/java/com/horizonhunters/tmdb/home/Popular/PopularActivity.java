@@ -56,7 +56,7 @@ public class PopularActivity extends AppCompatActivity {
 
     private void fetchPopular() {
         progressDialog.show();
-        String URL = BASE_URL + "trending/all/week?language=en-US&api_key="+API_KEY;
+        String URL = BASE_URL + "trending/all/week?language=en-US&api_key=" + API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, response -> {

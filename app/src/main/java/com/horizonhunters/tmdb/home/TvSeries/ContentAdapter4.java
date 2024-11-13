@@ -60,6 +60,7 @@ public class ContentAdapter4 extends RecyclerView.Adapter<ContentAdapter4.Conten
 
     public class ContentViewHolder3 extends RecyclerView.ViewHolder {
         ImageView poster;
+
         public ContentViewHolder3(@NonNull View itemView) {
             super(itemView);
             poster = itemView.findViewById(R.id.poster);

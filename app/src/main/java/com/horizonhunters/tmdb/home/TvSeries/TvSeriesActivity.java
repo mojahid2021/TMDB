@@ -33,6 +33,7 @@ public class TvSeriesActivity extends AppCompatActivity {
     private List<Content4> contentList4;
     private ContentAdapter4 contentAdapter4;
     private CustomProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +55,7 @@ public class TvSeriesActivity extends AppCompatActivity {
 
     private void fetchTvSeries() {
         progressDialog.show();
-        String URL = BASE_URL + "tv/popular?language=en-US&api_key="+API_KEY;
+        String URL = BASE_URL + "tv/popular?language=en-US&api_key=" + API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, response -> {

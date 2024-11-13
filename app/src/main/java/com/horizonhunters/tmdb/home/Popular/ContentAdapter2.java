@@ -91,7 +91,7 @@ public class ContentAdapter2 extends RecyclerView.Adapter<ContentAdapter2.Conten
 //            releaseDate = itemView.findViewById(R.id.releaseDate);
 //            voteAverage = itemView.findViewById(R.id.voteAverage);
 //            mediaType = itemView.findViewById(R.id.mediaType);
-              posterPath = itemView.findViewById(R.id.poster);
+            posterPath = itemView.findViewById(R.id.poster);
 //            backdropPath = itemView.findViewById(R.id.backDrop);
         }
     }

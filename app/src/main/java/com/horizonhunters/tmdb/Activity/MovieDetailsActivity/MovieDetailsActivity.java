@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieDetailsActivity extends AppCompatActivity {
-    private TextView title,showReleaseDate;
+    private TextView title, showReleaseDate;
     private TextView movieOverview;
     private ImageView backDrop;
     private List<String> genreList = new ArrayList<>();
@@ -220,7 +220,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
                         title.setText(getTitle);
                         movieOverview.setText(overview);
-                        showReleaseDate.setText("Release Date : "+releaseDate);
+                        showReleaseDate.setText("Release Date : " + releaseDate);
 
                         TextView ratingTextView = findViewById(R.id.rating);
                         ratingTextView.setText(String.valueOf(rating));

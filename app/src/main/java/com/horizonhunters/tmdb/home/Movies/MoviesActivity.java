@@ -55,7 +55,7 @@ public class MoviesActivity extends AppCompatActivity {
 
     private void fetchMovies() {
         progressDialog.show();
-        String URL = BASE_URL + "movie/popular?language=en-US&api_key="+API_KEY;
+        String URL = BASE_URL + "movie/popular?language=en-US&api_key=" + API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, response -> {

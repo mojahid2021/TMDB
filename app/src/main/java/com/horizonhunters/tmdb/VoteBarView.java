@@ -1,6 +1,7 @@
 package com.horizonhunters.tmdb;
 
 // VoteBarView.java
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;

@@ -34,6 +34,7 @@ public class SeasonDetailsActivity extends AppCompatActivity {
     private String seasonId; // Assume seasonId is passed via Intent
     private String tvSeriesId;
     private CustomProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +57,7 @@ public class SeasonDetailsActivity extends AppCompatActivity {
 
     private void parseEpisodeJson() {
         progressDialog.show();
-        String url = BASE_URL + "tv/"+ SERIESID +"/season/"+seasonId+"?language=en-US&api_key=" + API_KEY; // Modified endpoint for season details
+        String url = BASE_URL + "tv/" + SERIESID + "/season/" + seasonId + "?language=en-US&api_key=" + API_KEY; // Modified endpoint for season details
         Log.d("SeasonDetailsActivity", "API URL: " + url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -70,10 +71,10 @@ public class SeasonDetailsActivity extends AppCompatActivity {
                         for (int i = 0; i < episodesArray.length(); i++) {
                             JSONObject episodeObj = episodesArray.getJSONObject(i);
 
-                            String airDate = episodeObj.optString("air_date","Unknown Date");
-                            String episodeNumber = episodeObj.optString("episode_number","Episode Number Not Found");
-                            String name = episodeObj.optString("name","Episode Name Not Found");
-                            String overview = episodeObj.optString("overview","Overview Not Found");
+                            String airDate = episodeObj.optString("air_date", "Unknown Date");
+                            String episodeNumber = episodeObj.optString("episode_number", "Episode Number Not Found");
+                            String name = episodeObj.optString("name", "Episode Name Not Found");
+                            String overview = episodeObj.optString("overview", "Overview Not Found");
                             String stillPath = episodeObj.optString("still_path", "");
                             double voteAverage = episodeObj.optDouble("vote_average", 0.0);
                             int runtime = episodeObj.optInt("runtime", 0);

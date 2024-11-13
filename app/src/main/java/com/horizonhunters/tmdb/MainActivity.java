@@ -234,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void fetchSearchResults(String searchQuery) {
         progressDialog.show();
         // Show the progress bar while loading data
