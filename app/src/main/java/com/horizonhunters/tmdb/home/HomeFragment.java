@@ -5,6 +5,7 @@ import static com.horizonhunters.tmdb.Connstant.BASE_URL;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -39,6 +41,7 @@ import com.horizonhunters.tmdb.home.Upcoming.ContentAdapter5;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +60,7 @@ public class HomeFragment extends Fragment {
     private Handler handler;
     private LinearLayoutManager layoutManager, layoutManager2, layoutManager3, layoutManager4, layoutManager5;
     private CustomProgressDialog progressDialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -145,7 +149,7 @@ public class HomeFragment extends Fragment {
 
     private void fetchUpcoming() {
         progressDialog.show();
-        String URL = BASE_URL + "movie/upcoming?language=en-US&api_key="+API_KEY;
+        String URL = BASE_URL + "movie/upcoming?language=en-US&api_key=" + API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, response -> {
@@ -194,7 +198,7 @@ public class HomeFragment extends Fragment {
 
     private void fetchTvSeries() {
         progressDialog.show();
-        String URL = BASE_URL + "tv/popular?language=en-US&api_key="+API_KEY;
+        String URL = BASE_URL + "tv/popular?language=en-US&api_key=" + API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, response -> {
@@ -245,7 +249,7 @@ public class HomeFragment extends Fragment {
 
     private void fetchMovies() {
         progressDialog.show();
-        String URL = BASE_URL + "movie/popular?language=en-US&api_key="+API_KEY;
+        String URL = BASE_URL + "movie/popular?language=en-US&api_key=" + API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, response -> {
@@ -298,7 +302,7 @@ public class HomeFragment extends Fragment {
     // Fetch popular content
     private void fetchPopular() {
         progressDialog.show();
-        String URL = BASE_URL + "trending/all/week?language=en-US&api_key="+API_KEY;
+        String URL = BASE_URL + "trending/all/week?language=en-US&api_key=" + API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, response -> {
@@ -356,7 +360,7 @@ public class HomeFragment extends Fragment {
 
     private void fetchTrendingToday() {
         progressDialog.show();
-        String URL = BASE_URL + "trending/all/day?language=en-US&api_key="+API_KEY;
+        String URL = BASE_URL + "trending/all/day?language=en-US&api_key=" + API_KEY;
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, response -> {

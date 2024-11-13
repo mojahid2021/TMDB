@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:background="@drawable/genres_shape"
     android:layout_height="wrap_content"
     android:layout_marginEnd="3dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/genres_shape">
 
-        <TextView
-            android:id="@+id/genreName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:padding="3dp"
-            android:layout_marginStart="3dp"
-            android:layout_marginEnd="3dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
-            android:layout_alignParentStart="true"/>
+    <TextView
+        android:id="@+id/genreName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:padding="3dp"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp" />
 
 
 </RelativeLayout>

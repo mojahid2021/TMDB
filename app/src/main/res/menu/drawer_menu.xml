@@ -15,10 +15,10 @@
             android:title="Profile" />
 
     </group>
-<!--    <item android:title="Others">-->
-<!--        <menu>-->
-<!--            -->
-<!--        </menu>-->
-<!--    </item>-->
+    <!--    <item android:title="Others">-->
+    <!--        <menu>-->
+    <!--            -->
+    <!--        </menu>-->
+    <!--    </item>-->
 
 </menu>
