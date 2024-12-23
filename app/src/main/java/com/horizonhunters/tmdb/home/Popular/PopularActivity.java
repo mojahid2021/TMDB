@@ -5,6 +5,7 @@ import static com.horizonhunters.tmdb.Connstant.BASE_URL;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -40,7 +41,7 @@ public class PopularActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popular);
         RecyclerView recyclerView3 = findViewById(R.id.recyclerView3);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, calculateSpanCount(100));
         recyclerView3.setLayoutManager(gridLayoutManager);
 
         progressDialog = new CustomProgressDialog(this);
@@ -52,6 +53,12 @@ public class PopularActivity extends AppCompatActivity {
 
         fetchPopular();
 
+    }
+
+    private int calculateSpanCount(int itemWidthDp) {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
+        return Math.max(1, (int) (screenWidthDp / itemWidthDp));
     }
 
     private void fetchPopular() {

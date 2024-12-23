@@ -209,6 +209,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
                         String overview = response.getString("overview");
                         String releaseDate = response.getString("release_date");
                         double rating = response.getDouble("vote_average");
+
+                        String formattedRating = String.format("%.1f", rating);
+
                         String backdropPath = response.getString("backdrop_path");
 
                         JSONArray genresArray = response.getJSONArray("genres");
@@ -223,7 +226,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                         showReleaseDate.setText("Release Date : " + releaseDate);
 
                         TextView ratingTextView = findViewById(R.id.rating);
-                        ratingTextView.setText(String.valueOf(rating));
+                        ratingTextView.setText(formattedRating);
 
                         VoteBarView voteBar = findViewById(R.id.voteBar);
                         voteBar.setPercentage((float) rating); // Animate to 80%

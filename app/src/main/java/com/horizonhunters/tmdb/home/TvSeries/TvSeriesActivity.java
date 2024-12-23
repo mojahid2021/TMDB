@@ -4,6 +4,7 @@ import static com.horizonhunters.tmdb.Connstant.API_KEY;
 import static com.horizonhunters.tmdb.Connstant.BASE_URL;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -40,7 +41,7 @@ public class TvSeriesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tv_series);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, calculateSpanCount(100));
         recyclerView.setLayoutManager(gridLayoutManager);
 
         progressDialog = new CustomProgressDialog(this);
@@ -51,6 +52,11 @@ public class TvSeriesActivity extends AppCompatActivity {
 
         fetchTvSeries();
 
+    }
+    private int calculateSpanCount(int itemWidthDp) {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
+        return Math.max(1, (int) (screenWidthDp / itemWidthDp));
     }
 
     private void fetchTvSeries() {
