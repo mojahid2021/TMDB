@@ -8,5 +8,9 @@ import retrofit2.http.Path;
 public interface ApiService {
     @GET("/3/movie/{movie_id}")
     Call<ResponseBody> getMovileDetails(@Path("movie_id") Integer movie_id);
+
+    @GET("/3/movie/popular")
+    Call<ResponseBody> getMovies();
+
 }
 
