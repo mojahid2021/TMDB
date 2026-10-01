@@ -1,10 +1,12 @@
 package com.lunecode.tmdb;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,13 +43,21 @@ public class MovieDetailsActivity extends AppCompatActivity {
         moviewOverview = findViewById(R.id.mvOverview);
         movieBackdrop = findViewById(R.id.backdrop);
         moviePoster = findViewById(R.id.poster);
-
-        fetchMovieDetails();
+        String movieId = getIntent().getStringExtra("movieId");
+        if (movieId != null){
+            fetchMovieDetails(movieId);
+        } else {
+            try {
+                Intent intent = new Intent(this, SecondActivity.class);
+                startActivity(intent);
+            } catch (Exception e){
+                Log.d("Error", e.getMessage());
+            }
+        }
     }
 
-    private void fetchMovieDetails() {
+    private void fetchMovieDetails(String movieId) {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        int movieId = 1368337;
         Call<ResponseBody> call = apiService.getMovileDetails(movieId);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -98,4 +108,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
         });
 
     }
+
+
 }
