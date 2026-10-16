@@ -3,6 +3,7 @@ package com.lunecode.tmdb;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -14,6 +15,9 @@ public interface ApiService {
 
     @GET("/3/movie/upcoming")
     Call<ResponseBody> getUpcomingMovies();
+
+    @POST("/users/register")
+    Call<ResponseBody> postRegister(String email, String password);
 
 }
 
