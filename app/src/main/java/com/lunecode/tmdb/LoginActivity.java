@@ -1,5 +1,6 @@
 package com.lunecode.tmdb;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     private void loginPerform(String email, String password) {
         mAuth.signInWithEmailAndPassword(email,password).addOnSuccessListener(aVoid -> {
             Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
             finish();
         }).addOnFailureListener(e -> {
             Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();

@@ -26,6 +26,7 @@ import retrofit2.Response;
 public class MovieDetailsActivity extends AppCompatActivity {
     private TextView movieTitle, moviewReleaseDate, movieDuration, moviewOverview;
     private ImageView movieBackdrop, moviePoster;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         moviewOverview = findViewById(R.id.mvOverview);
         movieBackdrop = findViewById(R.id.backdrop);
         moviePoster = findViewById(R.id.poster);
+        databaseHelper = new DatabaseHelper(this, "movies.db", null, 1);
+
         String movieId = getIntent().getStringExtra("movieId");
         if (movieId != null){
             fetchMovieDetails(movieId);
@@ -75,6 +78,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                             String backdrop = mvObject.getString("backdrop_path");
                             String poster = mvObject.getString("poster_path");
 
+                            addWishList(movieId, title, releaseDate);
 
                             movieTitle.setText(title);
                             moviewReleaseDate.setText(releaseDate);
@@ -107,6 +111,15 @@ public class MovieDetailsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void addWishList(String movieId, String title, String releaseDate) {
+        long movies = databaseHelper.insertMovie(Integer.valueOf(movieId), title, releaseDate);
+        if (movies > 0){
+            Toast.makeText(this, "Movie added to wishlist", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this, "Movie not added to wishlist", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

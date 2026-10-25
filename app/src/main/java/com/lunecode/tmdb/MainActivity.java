@@ -14,8 +14,12 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity {
     private LinearLayout navHome, navDiscover, navLibrary, navProfile;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +35,14 @@ public class MainActivity extends AppCompatActivity {
         navDiscover = findViewById(R.id.navDiscover);
         navLibrary = findViewById(R.id.navLibrary);
         navProfile = findViewById(R.id.navProfile);
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         loadFragment(new HomeFragment());
 
